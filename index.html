@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>Qual é o seu Perfil de Liderança? — MicroPower</title>
+<meta name="description" content="Quiz rápido para identificar seu estilo de liderança. Veja seu estilo dominante, destaques e ações sugeridas. CTA para falar com a MicroPower." />
+
+<style>
+  :root{
+    --bg:#0a0f1b; --panel:#0f1526; --panel2:#0b1322; --stroke:#1b2740;
+    --text:#eef3f9; --dim:#a9b8cc;
+    --accent:#00dfa2; --accent2:#1ec6ff; --accent3:#70f0d6;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; color:var(--text);
+    font:16.4px/1.65 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+    background:
+      radial-gradient(1200px 700px at 6% -10%, rgba(30,198,255,.12), transparent),
+      radial-gradient(1000px 600px at 110% -20%, rgba(0,223,162,.12), transparent),
+      var(--bg);
+    letter-spacing:.1px;
+  }
+
+  .wrap{max-width:1080px;margin:0 auto;padding:34px 28px}
+
+  .card{
+    border:1px solid var(--stroke); border-radius:22px; overflow:hidden;
+    background:
+      radial-gradient(120% 60% at 80% -20%, rgba(30,198,255,.08), transparent 60%),
+      radial-gradient(120% 60% at 0% -10%, rgba(0,223,162,.08), transparent 60%),
+      var(--panel);
+    box-shadow:0 28px 70px rgba(0,0,0,.45);
+  }
+
+  /* HEADER (altura automática, não corta subtítulo) */
+  .hero-bar{
+    position:relative; display:flex; align-items:center; gap:16px;
+    padding:18px 22px 22px; min-height:78px; overflow:hidden;
+    background:linear-gradient(90deg, rgba(0,223,162,.18), rgba(30,198,255,.18));
+    border-bottom:1px solid var(--stroke);
+  }
+  .hero-glow{
+    position:absolute; inset:-80% -40% auto -40%;
+    background: conic-gradient(from 90deg, rgba(0,223,162,.35), rgba(30,198,255,.35), rgba(112,240,214,.35), rgba(0,223,162,.35));
+    filter: blur(48px); opacity:.5; animation: swirl 18s linear infinite;
+  }
+  @keyframes swirl{ to{ transform: rotate(360deg);} }
+
+  .badge{
+    width:56px;height:56px;border-radius:14px;display:grid;place-items:center;font-size:28px;z-index:1;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    box-shadow:0 12px 30px rgba(30,198,255,.35), inset 0 4px 14px rgba(255,255,255,.15);
+  }
+  .head h1{margin:0 0 6px;font-size:clamp(22px,3.2vw,34px)}
+  .head p{margin:0; line-height:1.55; color:var(--dim)}
+
+  .progress{margin-top:10px;height:10px;background:#0a1220;border-top:1px solid var(--stroke)}
+  .bar{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .35s ease}
+
+  .body{padding:26px;display:grid;gap:22px}
+  .screen{display:none}.screen.active{display:block}
+
+  .pill{font-size:13px;color:var(--dim);background:#0a1323;border:1px solid var(--stroke);padding:7px 12px;border-radius:999px}
+
+  /* Pergunta */
+  .q-wrap{display:flex;align-items:flex-start;gap:12px;margin:8px 0 14px}
+  .q-icon{
+    width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-size:20px;flex:0 0 auto;
+    background:linear-gradient(135deg, rgba(0,223,162,.2), rgba(30,198,255,.2)); border:1px solid var(--stroke);
+    box-shadow:0 6px 16px rgba(0,0,0,.25);
+  }
+  .q{font-size:clamp(18px,2.6vw,22px);line-height:1.5;margin:0}
+  .desc{color:var(--dim);line-height:1.6}
+
+  /* Alternativas */
+  .answers{display:grid;gap:16px}
+  .answer{
+    display:flex; gap:12px; align-items:center;
+    text-align:left;padding:16px 18px;min-height:58px;line-height:1.5;
+    border-radius:16px;border:1px solid #223247;background:var(--panel2);color:var(--text);cursor:pointer;
+    transition:transform .06s ease,border-color .2s ease,background .2s ease,box-shadow .2s ease;
+    font-size:16.6px; position:relative;
+  }
+  .answer:before{
+    content:""; width:8px; height:8px; border-radius:50%;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    box-shadow:0 0 0 4px rgba(30,198,255,.08); flex:0 0 auto;
+  }
+  .answer:hover{transform:translateY(-1px);border-color:#2c3f5c; box-shadow:0 10px 24px rgba(30,198,255,.15)}
+  .answer.selected{
+    border-color:transparent;
+    background:
+      linear-gradient(180deg, rgba(0,223,162,.12), rgba(30,198,255,.10)),
+      var(--panel2);
+    box-shadow:0 10px 28px rgba(0,223,162,.22), inset 0 0 0 1px rgba(255,255,255,.06);
+  }
+
+  .row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+  .btn{
+    padding:12px 18px;border-radius:12px;font-weight:700;cursor:pointer;border:0;
+    background:linear-gradient(90deg,var(--accent),var(--accent2));color:#021216;box-shadow:0 12px 28px rgba(30,198,255,.22)
+  }
+  .btn.ghost{background:transparent;color:var(--text);border:1px solid var(--stroke);box-shadow:none}
+
+  #screen-quiz .row:last-child{margin-top:20px;padding-top:10px}
+  .card .body{padding-bottom:30px}
+
+  /* Resultado */
+  .grid{display:grid;gap:18px;grid-template-columns:1fr}
+  @media(min-width:900px){.grid{grid-template-columns:1.05fr .95fr}}
+  .panel{background:#0a1323;border:1px solid var(--stroke);border-radius:18px;padding:18px}
+  .lead{font-size:clamp(20px,2.6vw,26px);margin:0 0 8px}
+  .style-name{font-weight:800;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .meter-row{display:grid;grid-template-columns:160px 1fr 52px;gap:12px;align-items:center;font-size:14px}
+  .meter-row b{color:#dfe8f4}
+  .bar2{height:12px;background:#0c1526;border:1px solid var(--stroke);border-radius:999px;overflow:hidden}
+  .bar2>span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .55s ease}
+
+  /* Confete */
+  .confetti{ position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:2; }
+  .confetti i{ position:absolute; width:8px; height:14px; opacity:0; }
+  .confetti i:nth-child(odd){ background: var(--accent); }
+  .confetti i:nth-child(even){ background: var(--accent2); }
+  .confetti i:nth-child(3n){ background: var(--accent3); }
+  .show .confetti i{ animation: drop 1.8s ease-out forwards; }
+  @keyframes drop{ 0%{ transform: translateY(-20vh) rotate(0); opacity:0 } 10%{opacity:1} 100%{ transform: translateY(110vh) rotate(540deg); opacity:0 } }
+
+  /* Mobile */
+  @media (max-width:560px){
+    .wrap{ padding:24px 16px; }
+    .body{ padding:20px; gap:18px; }
+    .answer{ min-height:60px; }
+    .meter-row{ grid-template-columns:120px 1fr 46px; }
+  }
+</style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="card" id="app" role="region" aria-live="polite">
+      <div class="hero-bar">
+        <div class="hero-glow" aria-hidden="true"></div>
+        <div class="badge" aria-hidden="true">🧭</div>
+        <div class="head">
+          <h1>Qual é o seu <span style="color:var(--accent2)">perfil de liderança</span>?</h1>
+          <p>12 perguntas rápidas. No final: seu estilo dominante, destaques e ações sugeridas.</p>
+        </div>
+      </div>
+
+      <div class="progress"><div class="bar" id="bar"></div></div>
+
+      <div class="body">
+        <!-- INTRO -->
+        <section id="screen-intro" class="screen active">
+          <div class="q-wrap">
+            <div class="q-icon">❓</div>
+            <h2 class="q">O que é este quiz?</h2>
+          </div>
+          <p class="desc" style="margin:-6px 0 0">
+            Um questionário curto para identificar seu <b>estilo de liderança predominante</b> e os traços que mais se destacam hoje.
+            Você recebe <b>dicas práticas</b> e um caminho claro de evolução.
+          </p>
+
+          <div class="q-wrap" style="margin-top:14px">
+            <div class="q-icon">🎯</div>
+            <h2 class="q">Para quem serve?</h2>
+          </div>
+          <ul class="desc" style="margin:-6px 0 0; padding-left:18px; list-style:'• '">
+            <li>Gestores e líderes que buscam <b>clareza</b> sobre seu estilo atual.</li>
+            <li>Quem quer <b>melhorar a performance do time</b> e a colaboração.</li>
+            <li>Profissionais em transição para uma <b>função de liderança</b>.</li>
+          </ul>
+
+          <div class="q-wrap" style="margin-top:14px">
+            <div class="q-icon">⚙️</div>
+            <h2 class="q">Como funciona?</h2>
+          </div>
+          <ul class="desc" style="margin:-6px 0 0; padding-left:18px; list-style:'• '">
+            <li><b>12 perguntas</b> de situações reais (leva ~3 minutos).</li>
+            <li>Não existe “certo/errado”: cada resposta pontua um <b>estilo</b>.</li>
+            <li>Ao final, você vê seu <b>estilo dominante</b>, os <b>top 5</b> e <b>ações sugeridas</b>.</li>
+          </ul>
+
+          <div class="row" style="gap:10px;margin-top:12px;justify-content:flex-start">
+            <button class="btn" id="startBtn">Começar agora</button>
+            <span class="pill">Leva ~3 min</span>
+            <span class="pill">Sem cadastro</span>
+          </div>
+        </section>
+
+        <!-- QUIZ -->
+        <section id="screen-quiz" class="screen" aria-label="Perguntas">
+          <div class="row">
+            <span class="pill" id="meter">1/12</span>
+            <span class="pill" id="liveStyle">Selecione a opção que mais parece com você</span>
+          </div>
+
+          <div class="q-wrap">
+            <div class="q-icon" id="qIcon">🧩</div>
+            <h2 class="q" id="q">Pergunta…</h2>
+          </div>
+
+          <div class="answers" id="answers"></div>
+
+          <div class="row">
+            <button class="btn ghost" id="prevBtn">Voltar</button>
+            <button class="btn" id="nextBtn">Próxima</button>
+          </div>
+        </section>
+
+        <!-- RESULTADO -->
+        <section id="screen-result" class="screen">
+          <div class="grid">
+            <div class="panel">
+              <h2 class="lead">Resultado: <span id="topStyle" class="style-name"></span></h2>
+              <p id="topDesc" class="desc"></p>
+
+              <div id="tieNote" class="desc" style="display:none;margin:8px 0 0;color:#cfe7ff"></div>
+
+              <div class="q-wrap" style="margin-top:10px">
+                <div class="q-icon">💡</div>
+                <h3 class="q" style="font-size:20px">Como aproveitar este resultado</h3>
+              </div>
+              <ul id="topTips" class="desc" style="margin:-6px 0 0; padding-left:18px; list-style:'• '"></ul>
+
+              <div class="q-wrap" style="margin-top:12px">
+                <div class="q-icon">🚀</div>
+                <h3 class="q" style="font-size:20px">Próximos passos recomendados</h3>
+              </div>
+              <ul class="desc" style="margin:-6px 0 0; padding-left:18px; list-style:'• '">
+                <li>Compartilhe com seu time e peça <b>exemplos concretos</b> em que esse estilo apareceu.</li>
+                <li>Escolha uma <b>ação pequena</b> para aplicar já na próxima semana (ex.: conduzir 1:1 de forma diferente).</li>
+                <li>Defina um <b>indicador simples</b> de progresso (ex.: velocidade de decisão, satisfação do time, retrabalho).</li>
+              </ul>
+
+              <div class="row" style="gap:10px;margin-top:14px;justify-content:flex-start">
+                <a class="btn" href="https://www.micropower.ai/fale-conosco" target="_blank" rel="noopener">
+                  Quero acelerar minha evolução como líder
+                </a>
+                <button class="btn ghost" id="restartBtn">Refazer</button>
+              </div>
+            </div>
+
+            <div class="panel">
+              <h3 style="margin:0 0 8px">Seus destaques (top 5)</h3>
+              <div id="meters"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confete -->
+  <div class="confetti" id="confetti"></div>
+
+<script>
+(function(){
+  const Q_ICONS = ["🧭","🤝","🚀","📚","📊","💬","🧷","📢","🛠️","🔀","✨","⏱️"];
+
+  const STYLES = [
+    { id:"autocratica", name:"Autocrática",
+      desc:"Decisões centralizadas e execução rápida. Útil em situações de urgência; em excesso, reduz participação e criatividade.",
+      tips:["Defina momentos para ouvir o time.","Explique o porquê das decisões.","Libere autonomia gradualmente."] },
+    { id:"democratica", name:"Democrática",
+      desc:"Decisões em conjunto e participação ativa. Gera engajamento quando há foco, critérios e tempo definidos.",
+      tips:["Use critérios objetivos para decidir.","Aplique timebox nas discussões.","Dê visibilidade às contribuições."] },
+    { id:"transformacional", name:"Transformacional",
+      desc:"Propósito claro, exemplo e inovação contínua. Conecta visão a autonomia com responsabilidade.",
+      tips:["Conecte metas à visão.","Lidere pelo exemplo.","Teste ideias em pilotos curtos."] },
+    { id:"liberal", name:"Liberal",
+      desc:"Autonomia ampla e confiança. Brilha com pessoas maduras; sem alinhamento, pode faltar direção.",
+      tips:["Combine autonomia com metas claras.","Crie checkpoints objetivos.","Ofereça suporte diante de bloqueios."] },
+    { id:"motivadora", name:"Motivadora",
+      desc:"Cuida do clima, remove barreiras e energiza. Mantém o time motivado e em ritmo saudável.",
+      tips:["Monitore a carga do time.","Reconheça progressos com frequência.","Vincule motivação a metas."] },
+    { id:"carismatica", name:"Carismática",
+      desc:"Influência pela comunicação empática e inspiradora. Ajuda na adesão; complemente com dados e critérios.",
+      tips:["Apoie decisões também em dados.","Pratique escuta ativa em 1:1.","Conte histórias com métricas."] },
+    { id:"coaching", name:"Coaching",
+      desc:"Desenvolve pessoas com perguntas, feedbacks e planos de ação. Foco em autonomia e aprendizado.",
+      tips:["Faça 1:1 regulares com metas claras.","Dê feedbacks específicos e equilibrados.","Crie planos individuais com prazos."] },
+    { id:"tecnica", name:"Técnica",
+      desc:"Lidera pelo conhecimento e prática. Gera segurança; traduza o técnico em impacto de negócio.",
+      tips:["Traduza termos técnicos para negócio.","Evite microgestão: foque em padrões.","Estimule mentoria técnica."] },
+    { id:"situacional", name:"Situacional",
+      desc:"Ajusta a abordagem conforme maturidade e contexto. Flexibilidade como estratégia.",
+      tips:["Diagnostique por tarefa, não por pessoa.","Ajuste direção/apoio por caso.","Revise o diagnóstico periodicamente."] }
+  ];
+
+  /* 12 PERGUNTAS — versão revisada (situacionais e objetivas) */
+  const QUESTIONS = [
+    { q:"Uma decisão de alto impacto precisa ser tomada hoje. Qual é a sua reação mais natural?",
+      options:[
+        {t:"Decido rapidamente, comunico depois e cobro execução.", s:"autocratica"},
+        {t:"Reúno pessoas-chave, defino critérios e decidimos juntos.", s:"democratica"},
+        {t:"Reforço a visão, alinho o objetivo e dou autonomia com accountability.", s:"transformacional"},
+        {t:"Delego a quem está mais próximo do problema e acompanho por indicadores.", s:"liberal"}
+      ]},
+    { q:"Surgiu um conflito entre duas áreas. O que você faz primeiro?",
+      options:[
+        {t:"Imponho uma diretriz clara para encerrar o impasse.", s:"autocratica"},
+        {t:"Faço mediação e construo um acordo entre as partes.", s:"carismatica"},
+        {t:"Marco 1:1 para ouvir, dar feedback e fechar um plano de ação.", s:"coaching"},
+        {t:"Relembro o objetivo comum e reconecto as equipes ao propósito.", s:"motivadora"}
+      ]},
+    { q:"Para estimular inovação no time, você tende a…",
+      options:[
+        {t:"Comunicar a visão e metas ambiciosas, inspirando novos caminhos.", s:"transformacional"},
+        {t:"Promover workshops colaborativos e priorizar ideias com critérios.", s:"democratica"},
+        {t:"Prototipar com orientação técnica e medir resultados.", s:"tecnica"},
+        {t:"Dar liberdade para experimentos e aprender com tentativas.", s:"liberal"}
+      ]},
+    { q:"Um colaborador tem dificuldade para dominar uma habilidade crítica. Qual abordagem descreve você?",
+      options:[
+        {t:"Crio um PDI com metas semanais e feedbacks frequentes.", s:"coaching"},
+        {t:"Removo barreiras, incentivo e reconheço avanços visíveis.", s:"motivadora"},
+        {t:"Faço mentoria prática e defino padrões técnicos claros.", s:"tecnica"},
+        {t:"Apoio quando necessário e deixo que a pessoa conduza o ritmo.", s:"liberal"}
+      ]},
+    { q:"Sobre processos e métricas, sua preferência é…",
+      options:[
+        {t:"Ter padrões rígidos e controle próximo.", s:"autocratica"},
+        {t:"Construir critérios junto com o time e revisar periodicamente.", s:"democratica"},
+        {t:"Basear decisões em evidências e KPIs bem definidos.", s:"tecnica"},
+        {t:"Adaptar o nível de processo conforme contexto e maturidade.", s:"situacional"}
+      ]},
+    { q:"Quando precisa dar um feedback difícil, você geralmente…",
+      options:[
+        {t:"Fala de forma direta, objetiva e não prolonga o assunto.", s:"autocratica"},
+        {t:"Usa perguntas para gerar consciência e co-construir o plano.", s:"coaching"},
+        {t:"Foca no impacto e reconhece o que já funciona para engajar.", s:"motivadora"},
+        {t:"Abre espaço para debate com o grupo se fizer sentido.", s:"democratica"}
+      ]},
+    { q:"Ao delegar uma tarefa crítica, sua tendência é…",
+      options:[
+        {t:"Passar diretrizes detalhadas e checkpoints definidos.", s:"autocratica"},
+        {t:"Delegar com visão e ownership claros, sem microgerenciar.", s:"transformacional"},
+        {t:"Dar autonomia total e avaliar pelo resultado final.", s:"liberal"},
+        {t:"Ajustar a autonomia conforme maturidade e risco da tarefa.", s:"situacional"}
+      ]},
+    { q:"Como você descreveria sua comunicação com a equipe?",
+      options:[
+        {t:"Clara, objetiva e orientada a resultado.", s:"tecnica"},
+        {t:"Inspiradora e conectada ao propósito do negócio.", s:"transformacional"},
+        {t:"Empática, motivadora e voltada para pessoas.", s:"carismatica"},
+        {t:"Aberta, participativa e com espaço para contribuições.", s:"democratica"}
+      ]},
+    { q:"Diante de um erro relevante, qual ação vem primeiro?",
+      options:[
+        {t:"Corrijo a rota e reforço o processo para evitar recorrência.", s:"autocratica"},
+        {t:"Investigo a causa-raiz e ajusto padrões e práticas.", s:"tecnica"},
+        {t:"Trato como aprendizado e compartilho lições com o time.", s:"transformacional"},
+        {t:"Apoio a pessoa e ajudo a recuperar a confiança.", s:"motivadora"}
+      ]},
+    { q:"Mudanças estratégicas foram anunciadas. Como você conduz o time?",
+      options:[
+        {t:"Lidero pelo exemplo, conecto à visão e mostro o caminho.", s:"transformacional"},
+        {t:"Escuto, envolvo as pessoas e busco consenso possível.", s:"democratica"},
+        {t:"Defino plano, prioridades e começo a execução firme.", s:"autocratica"},
+        {t:"Adapto o estilo conforme a situação e o perfil do time.", s:"situacional"}
+      ]},
+    { q:"No onboarding de novos profissionais, você prioriza…",
+      options:[
+        {t:"Mentoria prática e padrões claros de qualidade.", s:"tecnica"},
+        {t:"Coaching para acelerar autonomia com segurança.", s:"coaching"},
+        {t:"Acolhimento, integração e motivação logo no início.", s:"motivadora"},
+        {t:"Autonomia desde o dia 1 com suporte sob demanda.", s:"liberal"}
+      ]},
+    { q:"Sob forte pressão por resultados, sua tendência natural é…",
+      options:[
+        {t:"Centralizar decisões, priorizar e cobrar prazos.", s:"autocratica"},
+        {t:"Recalibrar metas com o time e redistribuir esforços.", s:"democratica"},
+        {t:"Atuar nos gargalos técnicos e otimizar processos.", s:"tecnica"},
+        {t:"Mudar o estilo conforme a urgência e o contexto.", s:"situacional"}
+      ]}
+  ];
+
+  const state = {
+    i:0,
+    answers:Array(QUESTIONS.length).fill(null),
+    scores:Object.fromEntries(["autocratica","democratica","transformacional","liberal","motivadora","carismatica","coaching","tecnica","situacional"].map(k=>[k,0]))
+  };
+
+  // DOM
+  const bar = document.getElementById('bar');
+  const scrIntro = document.getElementById('screen-intro');
+  const scrQuiz = document.getElementById('screen-quiz');
+  const scrResult = document.getElementById('screen-result');
+  const meter = document.getElementById('meter');
+  const qEl = document.getElementById('q');
+  const qIcon = document.getElementById('qIcon');
+  const aEl = document.getElementById('answers');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const startBtn = document.getElementById('startBtn');
+  const liveStyle = document.getElementById('liveStyle');
+  const topStyleEl = document.getElementById('topStyle');
+  const topDescEl = document.getElementById('topDesc');
+  const topTipsEl = document.getElementById('topTips');
+  const metersEl = document.getElementById('meters');
+  const tieNote = document.getElementById('tieNote');
+  const restartBtn = document.getElementById('restartBtn');
+  const confetti = document.getElementById('confetti');
+
+  function show(el){ [scrIntro,scrQuiz,scrResult].forEach(s=>s.classList.remove('active')); el.classList.add('active'); }
+  function updateBar(){ bar.style.width = Math.round((state.i/QUESTIONS.length)*100) + '%'; }
+  function findStyle(id){ return STYLES.find(s=>s.id===id); }
+
+  function renderQuestion(){
+    const item = QUESTIONS[state.i];
+    meter.textContent = (state.i+1) + '/' + QUESTIONS.length;
+    qEl.textContent = item.q;
+    qIcon.textContent = (["🧭","🤝","🚀","📚","📊","💬","🧷","📢","🛠️","🔀","✨","⏱️"][state.i]) || "🧩";
+    aEl.innerHTML = '';
+    liveStyle.textContent = "Selecione a opção que mais parece com você";
+    item.options.forEach((op, idx)=>{
+      const b = document.createElement('button');
+      b.className = 'answer';
+      b.textContent = op.t;
+      if(state.answers[state.i]===idx) { b.classList.add('selected'); liveStyle.textContent = findStyle(op.s).name; }
+      b.onclick = ()=>{
+        state.answers[state.i]=idx;
+        [...aEl.children].forEach(x=>x.classList.remove('selected'));
+        b.classList.add('selected');
+        liveStyle.textContent = findStyle(op.s).name;
+      };
+      aEl.appendChild(b);
+    });
+    updateBar();
+  }
+
+  function calcScores(){
+    for(const k in state.scores) state.scores[k]=0;
+    state.answers.forEach((ans, qi)=>{
+      if(ans==null) return;
+      const tag = QUESTIONS[qi].options[ans].s;
+      state.scores[tag] = (state.scores[tag]||0)+1;
+    });
+    // ordena por pontuação desc e, em empate, por nome alfabético (evita viés)
+    return Object.entries(state.scores)
+      .map(([id,score])=>({id,score,name: findStyle(id).name}))
+      .sort((a,b)=> (b.score - a.score) || a.name.localeCompare(b.name, 'pt-BR'));
+  }
+
+  function sprinkleConfetti(){
+    confetti.innerHTML = "";
+    for(let i=0;i<64;i++){
+      const p = document.createElement('i');
+      p.style.left = Math.random()*100 + "vw";
+      p.style.top = (-10 - Math.random()*50) + "px";
+      p.style.animationDelay = (Math.random()*0.8) + "s";
+      confetti.appendChild(p);
+    }
+    document.body.classList.add("show");
+    setTimeout(()=> document.body.classList.remove("show"), 2200);
+  }
+
+  function renderResult(){
+    const ordered = calcScores();
+    const total = state.answers.filter(a=>a!==null).length;
+    if(!total){ topStyleEl.textContent="—"; topDescEl.textContent=""; return; }
+
+    const maxScore = ordered[0].score;
+    const tied = ordered.filter(it => it.score === maxScore && maxScore > 0);
+
+    if (tied.length === 1) {
+      const best = tied[0];
+      const styleObj = findStyle(best.id);
+      topStyleEl.textContent = styleObj.name;
+      topDescEl.textContent = styleObj.desc;
+      tieNote.style.display = "none";
+      topTipsEl.innerHTML = "";
+      (styleObj.tips||[]).forEach(t=>{ const li=document.createElement('li'); li.textContent=t; topTipsEl.appendChild(li); });
+    } else {
+      // empate no topo → perfil híbrido
+      const names = tied.map(t=>t.name);
+      topStyleEl.textContent = "Híbrido: " + names.join(" + ");
+      topDescEl.textContent = "Há um empate entre estilos de liderança. Isso indica flexibilidade — você alterna a abordagem de acordo com o contexto.";
+      tieNote.style.display = "block";
+      const pct = Math.round((maxScore/total)*100);
+      tieNote.textContent = `Empate técnico no topo: ${names.join(" • ")} (${pct}% cada). Veja as ações combinadas abaixo.`;
+
+      const merged = [];
+      names.forEach(n=>{
+        const o = STYLES.find(s=>s.name===n);
+        if(o && o.tips) merged.push(...o.tips);
+      });
+      topTipsEl.innerHTML = "";
+      [...new Set(merged)].slice(0,6).forEach(t=>{
+        const li=document.createElement('li'); li.textContent=t; topTipsEl.appendChild(li);
+      });
+    }
+
+    // barras Top 5
+    metersEl.innerHTML = "";
+    ordered.slice(0,5).forEach(item=>{
+      const pct = total ? Math.round((item.score/total)*100) : 0;
+      const row = document.createElement('div'); row.className = 'meter-row';
+      const label = document.createElement('div'); label.innerHTML = '<b>'+item.name+'</b>';
+      const bar2 = document.createElement('div'); bar2.className = 'bar2';
+      const span = document.createElement('span'); span.style.width = 0; bar2.appendChild(span);
+      const perc = document.createElement('div'); perc.textContent = pct+'%'; perc.style.textAlign = 'right';
+      row.append(label, bar2, perc); metersEl.appendChild(row);
+      setTimeout(()=>{ span.style.width = pct+'%'; }, 60);
+    });
+
+    sprinkleConfetti();
+  }
+
+  // Navegação
+  startBtn.onclick = ()=>{ show(scrQuiz); renderQuestion(); };
+  prevBtn.onclick = ()=>{ if(state.i>0){ state.i--; renderQuestion(); } };
+  nextBtn.onclick = ()=>{
+    if(state.answers[state.i]==null){
+      alert("Escolha uma opção para seguir. Dica: responda pensando no que você faz na prática, não no cenário ideal.");
+      return;
+    }
+    if(state.i < QUESTIONS.length-1){ state.i++; renderQuestion(); }
+    else { bar.style.width='100%'; show(scrResult); renderResult(); }
+  };
+  restartBtn.onclick = ()=>{ state.i=0; state.answers=Array(QUESTIONS.length).fill(null); for(const k in state.scores) state.scores[k]=0; show(scrIntro); updateBar(); };
+
+  // Autoplay opcional: ?autoplay=1
+  const params = new URLSearchParams(location.search);
+  if(params.get('autoplay')==='1'){ show(scrQuiz); renderQuestion(); }
+})();
+</script>
+</body>
+</html>
